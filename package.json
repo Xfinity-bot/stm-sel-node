@@ -1,0 +1,9 @@
+{
+  "name": "SoftwareTestingSelenium",
+  "version": "'",
+  "description": "BITS Software testing assignment node js selenium script to visist random link and fetch data",
+  "main": "index.js",
+  "repository": "https://github.com/Xfinity-bot/stm-sel-node.git",
+  "author": "Xfinity-Bot",
+  "license": "MIT"
+}

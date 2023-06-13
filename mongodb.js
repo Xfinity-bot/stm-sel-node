@@ -20,10 +20,23 @@ app.use(express.json());
 app.get('/', (req, res)=>{
     res.send('Hello World');
 })
+function addToDB(data){
+    Repo.create(data).then((msg)=>{console.log({
+        "message":"Successfully Inserted",
+        "data":msg
+    })}).catch((err)=>{console.log( {"message" : "Failed to Insert",
+    "data": err})});
+    }
+
+ function test (){
+    console.log("hello world");
+}
+
 
 app.post('/addtodb',async(req,res)=>{
     console.log(req.body)
 
+    
 await Repo.create({
     "title" : req.body.title,
     "stars" : req.body.stars, 
@@ -33,3 +46,13 @@ await Repo.create({
 })}).catch((err)=>{res.status(500).json( {"message" : "Failed to Insert",
 "data": err})});
 })
+
+const  deleteAll=async()=>{
+    console.log("hello del world");
+   await Repo.deleteMany({}).then((msg)=>{console.log({
+        "message":"Successfully Deleted",
+        "data":msg
+    })}).catch((err)=>{console.log( {"message" : "Failed to Delete",
+    "data": err})});
+}
+module.exports = {addToDB, test, deleteAll};

@@ -2,8 +2,11 @@ const mongoose = require('mongoose');
 const {Schema,model} = mongoose;
 
 const repoSchema = new Schema({
-    title :{required: true, type:String},
-    stars : {required:true,default :0, type:Number}
+    repo :{required: true, type:String},
+    stars : {required:true,default :0, type:String},
+    author :{required:true,type:String},
+    about :{required:true,type:String},
+    link: {required:true,type:String}
     });
     
 

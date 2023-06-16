@@ -10,6 +10,7 @@ import {
   CardBody,
   Text,
   Tag,
+  Avatar
 } from "@chakra-ui/react";
 import { Divider } from "@chakra-ui/react";
 
@@ -20,7 +21,7 @@ const RCard = ({ data }) => {
     return (
       <Card>
         <CardHeader position={"relative"}>
-          <Heading size="md">{data?.repo}</Heading>
+        <Heading size="md">{data?.repo}</Heading>
           <Badge
             ml="5"
             p="1"
@@ -50,10 +51,12 @@ const RCard = ({ data }) => {
             Visit{" "}
           </Button>
         </a>
-        <CardFooter>
-          <Tag colorScheme="teal" variant={"outline"}>
+        <CardFooter position='relative'>
+          <Avatar src={data?.imgSrc}/>
+          <Tag position='absolute' right='5' bottom='7' colorScheme="teal" variant={"solid"}>
             Author : <Text as={"b"}>{data?.author} </Text>
           </Tag>
+          
         </CardFooter>
       </Card>
     );

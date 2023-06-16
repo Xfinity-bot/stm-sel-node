@@ -5,6 +5,7 @@ let links = [];
 let about = [];
 let stars = [];
 let data = [];
+let imgSrc = [];
 
 function sleep(ms) {
   return new Promise((resolve) => {
@@ -33,7 +34,8 @@ function sleep(ms) {
     for (let i = 0; i < links.length; i++) {
       // Visit the link
       await driver.get(links[i]);
-
+      //await driver.findElements(By.css(" a > span")).then((data)=>data.forEach(element => {element.getText().then((text)=>console.log(text))}))
+      
       // Wait for the page to load
       let afterGithub = await links[i].substring(links[i].indexOf("m/") + 2);
       title = await afterGithub.substring(afterGithub.indexOf("/") + 1);
@@ -52,10 +54,28 @@ function sleep(ms) {
         .then((text) => {
           about.push(text);
         });
+
+        await driver.findElement(By.className("url fn")).click();
+        //await driver.wait(until.titleContains('Github'));
+
+        await driver.sleep(2000)
+       await driver.findElement(By.css('[itemprop="image')).getAttribute('src').then(async(text)=>{
+          if (text===null){
+           await driver.findElement(By.css('[itemprop="image')).getAttribute('href').then((text)=>{imgSrc.push(text)})
+           await driver.sleep(1000)
+          }else{
+            imgSrc.push(text)
+          }
+        });
+        await driver.sleep(5000)
+      
+        
+   
     }
 
     await sleep(500);
   } finally {
+    await deleteAll();
     await sleep(500);
     let sD = {
       link: "",
@@ -63,6 +83,7 @@ function sleep(ms) {
       repo: "",
       stars: "",
       about: "",
+      imgSrc:"",
     };
     for (let i = 0; i < links.length; i++) {
       sD = {
@@ -71,6 +92,7 @@ function sleep(ms) {
         repo: "",
         stars: "",
         about: "",
+        imgSrc:"",
       };
       sD.link = links[i];
 
@@ -78,12 +100,13 @@ function sleep(ms) {
       sD.repo = links[i].split("/")[4];
       sD.stars = stars[i];
       sD.about = about[i];
+      sD.imgSrc = imgSrc[i];
       //console.log(sD);
       data.push(sD);
       await addToDB(sD);
     }
     await driver.sleep(2500);
-    //await deleteAll();
+    
     await driver.quit();
   }
 })();

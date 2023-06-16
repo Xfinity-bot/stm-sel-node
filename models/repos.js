@@ -6,7 +6,8 @@ const repoSchema = new Schema({
     stars : {required:true,default :0, type:String},
     author :{required:true,type:String},
     about :{required:true,type:String},
-    link: {required:true,type:String}
+    link: {required:true,type:String},
+    imgSrc: {required:true,type:String},
     });
     
 

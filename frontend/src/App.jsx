@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Center, Circle, DarkMode } from "@chakra-ui/react";
+import { Box, Center, DarkMode } from "@chakra-ui/react";
 import "./App.css";
 import axios from "axios";
 import Header from "./components/Header";

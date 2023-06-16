@@ -8,6 +8,8 @@ const app = express();
 
 const PORT = process.env.PORT;
 const MONGO_DB_URL = process.env.MONGO_DB_URL;
+
+//Connect to MongoDB
 mongoose.connect(MONGO_DB_URL);
 mongoose.connection.once("open", () => {
   console.log("Connected to database");
@@ -15,12 +17,18 @@ mongoose.connection.once("open", () => {
     console.log("listening on port @" + PORT);
   });
 });
+
+
 app.use(express.json());
 app.use(cors());
 
+
+//default route 
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
+
+//function to add data into mongoDB
 function addToDB(data) {
   Repo.create(data)
     .then((msg) => {
@@ -34,10 +42,7 @@ function addToDB(data) {
     });
 }
 
-function test() {
-  console.log("hello world");
-}
-
+//route to get all repositories
 app.get("/getAll", async (req, res) => {
   Repo.find({}).then((err, documents) => {
     if (err) {
@@ -52,6 +57,8 @@ app.get("/getAll", async (req, res) => {
   });
 });
 
+
+//route to add data 
 app.post("/addtodb", async (req, res) => {
   console.log(req.body);
   await Repo.create({
@@ -69,6 +76,8 @@ app.post("/addtodb", async (req, res) => {
     });
 });
 
+
+//Function to delete all the documents
 const deleteAll = async () => {
   console.log("hello del world");
   await Repo.deleteMany({})
@@ -82,4 +91,4 @@ const deleteAll = async () => {
       console.log({ message: "Failed to Delete", data: err });
     });
 };
-module.exports = { addToDB, test, deleteAll };
+module.exports = { addToDB, deleteAll };

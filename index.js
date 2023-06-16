@@ -1,4 +1,4 @@
-const { addToDB, test, deleteAll } = require("./mongodb");
+const { addToDB, deleteAll } = require("./mongodb");
 const { Builder, Browser, By, Key, until } = require("selenium-webdriver");
 
 let links = [];
@@ -34,8 +34,7 @@ function sleep(ms) {
     for (let i = 0; i < links.length; i++) {
       // Visit the link
       await driver.get(links[i]);
-      //await driver.findElements(By.css(" a > span")).then((data)=>data.forEach(element => {element.getText().then((text)=>console.log(text))}))
-      
+
       // Wait for the page to load
       let afterGithub = await links[i].substring(links[i].indexOf("m/") + 2);
       title = await afterGithub.substring(afterGithub.indexOf("/") + 1);
@@ -55,22 +54,26 @@ function sleep(ms) {
           about.push(text);
         });
 
-        await driver.findElement(By.className("url fn")).click();
-        //await driver.wait(until.titleContains('Github'));
+      await driver.findElement(By.className("url fn")).click();
 
-        await driver.sleep(2000)
-       await driver.findElement(By.css('[itemprop="image')).getAttribute('src').then(async(text)=>{
-          if (text===null){
-           await driver.findElement(By.css('[itemprop="image')).getAttribute('href').then((text)=>{imgSrc.push(text)})
-           await driver.sleep(1000)
-          }else{
-            imgSrc.push(text)
+      await driver.sleep(2000);
+      await driver
+        .findElement(By.css('[itemprop="image'))
+        .getAttribute("src")
+        .then(async (text) => {
+          if (text === null) {
+            await driver
+              .findElement(By.css('[itemprop="image'))
+              .getAttribute("href")
+              .then((text) => {
+                imgSrc.push(text);
+              });
+            await driver.sleep(1000);
+          } else {
+            imgSrc.push(text);
           }
         });
-        await driver.sleep(5000)
-      
-        
-   
+      await driver.sleep(5000);
     }
 
     await sleep(500);
@@ -83,7 +86,7 @@ function sleep(ms) {
       repo: "",
       stars: "",
       about: "",
-      imgSrc:"",
+      imgSrc: "",
     };
     for (let i = 0; i < links.length; i++) {
       sD = {
@@ -92,21 +95,21 @@ function sleep(ms) {
         repo: "",
         stars: "",
         about: "",
-        imgSrc:"",
+        imgSrc: "",
       };
+      
       sD.link = links[i];
-
       sD.author = links[i].split("/")[3];
       sD.repo = links[i].split("/")[4];
       sD.stars = stars[i];
       sD.about = about[i];
       sD.imgSrc = imgSrc[i];
-      //console.log(sD);
+      
       data.push(sD);
       await addToDB(sD);
     }
     await driver.sleep(2500);
-    
+
     await driver.quit();
   }
 })();
